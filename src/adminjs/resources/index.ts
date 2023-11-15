@@ -1,7 +1,8 @@
 import { ResourceWithOptions } from "adminjs";
-import { Category, Course } from "../../models";
+import { Category, Course, Episode } from "../../models";
 import { categoryResourceOptions } from "./category";
 import { courseResourceOptions } from "./course";
+import { episodeResourceFeatures, episodeResourceOptions } from "./episode";
 
 //indica quais models que vai gerenciar e quais options que detalha como ele vai gerenciar esse model
 export const adminjsResources: ResourceWithOptions[] = [
@@ -12,5 +13,10 @@ export const adminjsResources: ResourceWithOptions[] = [
   {
     resource: Course,
     options: courseResourceOptions,
+  },
+  {
+    resource: Episode,
+    options: episodeResourceOptions,
+    features: episodeResourceFeatures,
   },
 ];
