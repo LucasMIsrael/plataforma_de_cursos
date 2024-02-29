@@ -1,4 +1,4 @@
-Nomes: Gustavo Henrique Costa
+Nomes: Gustavo Henrique Costa,
 	     Lucas Mendes Israel 
 
 
