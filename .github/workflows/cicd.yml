@@ -26,6 +26,7 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
     - run: npm install # Instala dependências
+    - run: npm install eslint --save-dev
     - run: npm run lint # Executa o ESLint para verificar a sintaxe do código
     - run: npm test # Executa os testes de unidade e/ou integração
     - run: ls -la
