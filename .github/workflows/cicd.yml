@@ -20,13 +20,11 @@ jobs:
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
-      with:
-        node-version: ${{ matrix.node-version }}
-    - run: npm install # Instala dependências
-    - run: npm install eslint --save-dev
-    - run: npm run lint # Executa o ESLint para verificar a sintaxe do código
-    - run: npm test # Executa os testes de unidade e/ou integração
-    - run: ls -la
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+      - run: npm install
+      - run: npm test
+      - run: ls -la
