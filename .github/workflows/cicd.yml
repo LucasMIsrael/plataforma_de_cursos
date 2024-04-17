@@ -23,6 +23,23 @@ jobs:
       - run: npm install
       - run: ls -la
 
+  install:
+    name: Installing Packages
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Cache node_modules
+        uses: actions/cache@v2
+        with:
+          path: node_modules
+          key: ${{runner.os}}-${{hashFiles('**/npm.lock')}}
+
+      - name: Install dependencies
+        run: npm install
+
   unusedexports:
     name: Find unused exports (desd code)
     runs-on: ubuntu-latest
