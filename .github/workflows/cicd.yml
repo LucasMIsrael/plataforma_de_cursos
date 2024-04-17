@@ -37,8 +37,5 @@ jobs:
           path: node_modules
           key: ${{runner.os}}-${{hashFiles('**/npm.lock')}}
 
-      - name: Print ts-prune path
-        run: which ts-prune
-
       - name: Run ts-prune
         run: npm run ts-prune --error
