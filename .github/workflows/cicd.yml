@@ -59,13 +59,9 @@ jobs:
           key: ${{runner.os}}-${{hashFiles('**/npm.lock')}}
 
       - name: Run ts-prune
-        run: npx ts-prune --error
+        run: npm run ts-prune --error | tee ts-prune-output.txt
         continue-on-error: true  # Continua mesmo que o ts-prune retorne código de saída diferente de zero
   
-      - name: Check ts-prune result
-        run: echo "::set-output name=prune-result::$(echo $?)"
-        id: check-result
-  
-      - name: Fail if ts-prune found issues
-        if: steps.check-result.outputs.prune-result != 0
-        run: exit 1  # Força uma falha se ts-prune detectar problemas
+      - name: Check ts-prune output
+        run: |
+          grep "Unused exports found" ts-prune-output.txt && exit 1 || exit 0
