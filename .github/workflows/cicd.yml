@@ -3,7 +3,11 @@
 
 name: teste CI
 
-on: [pull_request]
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
 
 jobs:
   run-tests:
@@ -43,26 +47,25 @@ jobs:
   unusedexports:
     name: Find unused exports (desd code)
     runs-on: ubuntu-latest
-    needs: run-tests
+    needs: run-tests # Garante que este job seja executado após o job run-tests
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-  
+
       - name: Restore node_modules
         uses: actions/cache@v2
         with:
           path: node_modules
           key: ${{runner.os}}-${{hashFiles('**/npm.lock')}}
-  
+
       - name: Run ts-prune
-        run: npm run ts-prune
-        continue-on-error: true
-        env:
-          CI: true
-      - run: |
-          if grep -q "Unused exports found" ${GITHUB_WORKSPACE}/prune-report.txt; then
-            echo "Unused exports found, failing the job"
-            exit 1
-          else
-            echo "No unused exports found"
-          fi
+        run: npx ts-prune --error
+        continue-on-error: true  # Continua mesmo que o ts-prune retorne código de saída diferente de zero
+  
+      - name: Check ts-prune result
+        run: echo "::set-output name=prune-result::$(echo $?)"
+        id: check-result
+  
+      - name: Fail if ts-prune found issues
+        if: steps.check-result.outputs.prune-result != 0
+        run: exit 1  # Força uma falha se ts-prune detectar problemas
