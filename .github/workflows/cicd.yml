@@ -55,4 +55,4 @@ jobs:
           key: ${{runner.os}}-${{hashFiles('**/npm.lock')}}
 
       - name: Run ts-prune
-        run: npm run ts-prune --error
+        run: npx ts-prune --error
